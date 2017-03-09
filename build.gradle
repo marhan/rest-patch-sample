@@ -29,7 +29,7 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('com.flipkart.zjsonpatch:zjsonpatch:0.3.0')
+    compile('com.github.fge:json-patch:1.9')
 
     runtime('org.springframework.boot:spring-boot-devtools')
 
