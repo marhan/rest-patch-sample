@@ -1,5 +1,8 @@
 language: java
 
+os:
+  - linux
+
 jdk:
   - oraclejdk8
 
@@ -9,3 +12,6 @@ before_install:
 cache:
   directories:
   - $HOME/.gradle
+
+script:
+  - ./gradlew clean build
