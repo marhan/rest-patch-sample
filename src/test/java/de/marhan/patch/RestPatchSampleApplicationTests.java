@@ -1,4 +1,4 @@
-package de.marhan;
+package de.marhan.patch;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

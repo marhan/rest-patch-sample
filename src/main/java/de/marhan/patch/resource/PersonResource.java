@@ -1,4 +1,4 @@
-package de.marhan.resource;
+package de.marhan.patch.resource;
 
 public class PersonResource {
 

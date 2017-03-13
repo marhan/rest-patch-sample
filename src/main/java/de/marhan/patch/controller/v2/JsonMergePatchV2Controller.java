@@ -1,7 +1,7 @@
-package de.marhan.controller;
+package de.marhan.patch.controller.v2;
 
-import de.marhan.resource.PersonResource;
-import de.marhan.service.PersonService;
+import de.marhan.patch.resource.PersonResource;
+import de.marhan.patch.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/merge")
-public class JsonMergePatchController {
+@RequestMapping("/api/v2/merge")
+public class JsonMergePatchV2Controller {
 
     private PersonService service;
 
     @Autowired
-    public JsonMergePatchController(PersonService service) {
+    public JsonMergePatchV2Controller(PersonService service) {
         this.service = service;
     }
 
