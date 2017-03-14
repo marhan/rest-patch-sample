@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/v3/merge")
+//@RestController
+//@RequestMapping("/api/v3/merge")
 public class JsonPatchV3Controller {
 
     private PersonService service;
