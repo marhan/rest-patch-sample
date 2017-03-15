@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 jar {
     baseName = 'rest-patch-sample'
@@ -50,4 +50,12 @@ dependencies {
 
 tasks.withType(GroovyCompile) {
     groovyOptions.optimizationOptions.indy = true
+}
+
+bootRun {
+    systemProperties = System.properties
+}
+
+test {
+    systemProperties = System.properties
 }

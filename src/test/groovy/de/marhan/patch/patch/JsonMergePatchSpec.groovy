@@ -1,77 +1,67 @@
 package de.marhan.patch.patch
 
-import de.marhan.patch.resource.PersonResource
+import de.marhan.patch.RestPatchSampleApplication
 import groovy.json.JsonOutput
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
-import org.junit.runner.RunWith
-import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.context.web.WebAppConfiguration
-import org.springframework.web.client.RestTemplate
+import org.springframework.boot.SpringApplication
+import org.springframework.context.ConfigurableApplicationContext
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 
-import static io.restassured.RestAssured.given
-import static org.hamcrest.CoreMatchers.equalTo
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration
-@WebAppConfiguration
-@ActiveProfiles(profiles = "test")
 class JsonMergePatchSpec extends Specification {
 
 
-    def commercialData = []
+    def person = ["id": 1, "name": "test"]
 
+
+    @Shared
+    @AutoCleanup
+    ConfigurableApplicationContext context
+
+    void setupSpec() {
+        Future future = Executors
+                .newSingleThreadExecutor().submit(
+                new Callable() {
+                    @Override
+                    ConfigurableApplicationContext call() throws Exception {
+                        return (ConfigurableApplicationContext) SpringApplication
+                                .run(RestPatchSampleApplication.class)
+                    }
+                })
+        context = future.get(60, TimeUnit.SECONDS)
+    }
 
     def setup() {
-        RestAssured.baseURI = "http://localhost:10020"
+        RestAssured.baseURI = "http://localhost:12345"
 
     }
 
-    def "read 1"() {
 
-        expect:
-        RestTemplate restTemplate = new RestTemplate()
-
-        List<PersonResource> products =
-                restTemplate.getForObject("http://localhost:10020/v1/persons", PersonResource.class)
-    }
-
-    def "read"() {
+    def "get persons"() {
 
         expect:
 
-        RestAssured
-                .get("/v1/persons")
+        RestAssured.get("/v1/persons")
                 .then()
-                .statusCode(200).body("name", { equalTo("test") })
+                .statusCode(200)
     }
 
     def "create"() {
 
         expect:
 
-        given().contentType(ContentType.JSON).body(JsonOutput.toJson(commercialData))
+        RestAssured.given().contentType(ContentType.JSON).body(JsonOutput.toJson(person))
                 .when()
                 .post("/v1/persons")
                 .then()
                 .statusCode(201)
-                .body("services", { equalTo("my services") })
-    }
-
-
-    def "test"() {
-
-        when:
-
-        def test = ""
-
-        then:
-
-        test == ""
-
     }
 
 
