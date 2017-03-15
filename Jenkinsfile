@@ -11,12 +11,6 @@ node {
     }
 
     stage('test') {
-        try {
-            sh "./gradlew test"
-        } catch (err) {
-            throw err
-        } finally {
-            junit '**/build/**/TEST-*.xml'
-        }
+        sh "./gradlew test -Dspring.profiles.active=test"
     }
 }

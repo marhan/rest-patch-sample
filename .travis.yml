@@ -13,4 +13,4 @@ cache:
   directories:
     - $HOME/.gradle
 
-script: ./gradlew clean test
+script: ./gradlew clean test -Dspring.profiles.active=test
