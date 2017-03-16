@@ -1,38 +1,50 @@
 package de.marhan.patch.patch
 
-import groovy.json.JsonOutput
-import io.restassured.RestAssured
-import io.restassured.http.ContentType
+import groovy.json.JsonSlurper
+import groovyx.net.http.ContentType
+import groovyx.net.http.RESTClient
+import spock.lang.Shared
 
 class JsonMergePatchSpec extends SpringBootSpecification {
 
+    @Shared
+    RESTClient client = new RESTClient("http://localhost:12345")
 
-    def person = ["id": 1, "name": "test"]
-
-
-    def setup() {
-
-    }
-
+    JsonSlurper jsonSlurper = new JsonSlurper()
 
     def "get persons"() {
 
-        expect:
+        when:
 
-        RestAssured.get("/v1/persons")
-                .then()
-                .statusCode(200)
+        def response = client.get(path: '/v1/persons')
+
+        then:
+
+        response != null
+        with(response) {
+            status == 200
+            data == jsonSlurper.parseText('[{ "id": 1, "name": "test name" }]')
+        }
+
+
     }
 
     def "create"() {
 
-        expect:
+        when:
 
-        RestAssured.given().contentType(ContentType.JSON).body(JsonOutput.toJson(person))
-                .when()
-                .post("/v1/persons")
-                .then()
-                .statusCode(201)
+        def response = client.post(
+                path: '/v1/persons',
+                body: [name: "Jona Meier"],
+                requestContentType: ContentType.JSON)
+
+        then:
+
+        response != null
+        with(response) {
+            status == 201
+            data == jsonSlurper.parseText('{ "id": 2, "name": "Jona Meier" }')
+        }
     }
 
 

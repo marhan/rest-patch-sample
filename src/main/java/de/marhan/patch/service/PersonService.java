@@ -18,7 +18,8 @@ public class PersonService {
     public PersonResource createPersonResource(PersonResource resource) {
         Integer id = ++sequnece;
         resource.setId(id);
-        return resources.put(id, resource);
+        resources.put(id, resource);
+        return resource;
     }
 
     public List<PersonResource> getPersons() {

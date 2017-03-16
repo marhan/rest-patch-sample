@@ -35,7 +35,7 @@ public class JsonMergePatchV1Controller {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonResource> create(@RequestBody PersonResource resource) {
 
         PersonResource createdResource = service.createPersonResource(resource);
