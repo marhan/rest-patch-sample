@@ -46,6 +46,7 @@ dependencies {
     testRuntime "org.objenesis:objenesis:2.5.1"
     testRuntime "com.h2database:h2:1.4.182"
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+    testCompile 'io.rest-assured:rest-assured:3.0.2'
 }
 
 tasks.withType(GroovyCompile) {

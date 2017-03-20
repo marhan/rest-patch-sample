@@ -1,67 +1,58 @@
 package de.marhan.patch.patch
 
-import groovy.json.JsonSlurper
-import groovyx.net.http.ContentType
-import groovyx.net.http.RESTClient
-import spock.lang.Shared
+import groovy.json.JsonOutput
+import io.restassured.RestAssured
+import io.restassured.http.ContentType
+
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.hasItems
 
 class JsonMergePatchSpec extends SpringBootSpecification {
 
-    @Shared
-    RESTClient client = new RESTClient("http://localhost:12345")
-
-    JsonSlurper jsonSlurper = new JsonSlurper()
-
     def "get persons"() {
 
-        when:
+        expect:
 
-        def response = client.get(path: '/v1/persons')
-
-        then:
-
-        response != null
-        with(response) {
-            status == 200
-            data == jsonSlurper.parseText('[{ "id": 1, "name": "test name" }]')
-        }
+        RestAssured.given()
+                .contentType(ContentType.URLENC)
+                .when()
+                .get("/v1/persons")
+                .then()
+                .contentType(ContentType.JSON)
+                .statusCode(200)
+                .body("id", { hasItems(1) })
+                .body("name", { hasItems("test name") })
 
 
     }
 
     def "create"() {
 
-        when:
+        expect:
 
-        def response = client.post(
-                path: '/v1/persons',
-                body: [name: "Jona Meier"],
-                requestContentType: ContentType.JSON)
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(JsonOutput.toJson([name: "Jona Meier"]))
+                .when()
+                .post("/v1/persons")
+                .then()
+                .statusCode(201)
+                .body("id", { equalTo(2) })
+                .body("name", { equalTo("Jona Meier") })
 
-        then:
-
-        response != null
-        with(response) {
-            status == 201
-            data == jsonSlurper.parseText('{ "id": 2, "name": "Jona Meier" }')
-        }
     }
 
     def "patch"() {
 
-        when:
+        expect:
 
-        def response = client.patch(
-                path: '/v1/persons/1',
-                body: [name: "Jona Meier"],
-                requestContentType: ContentType.JSON)
-
-        then:
-
-        response != null
-        with(response) {
-            status == 201
-        }
+        RestAssured.given()
+                .contentType("application/merge-patch+json")
+                .body(JsonOutput.toJson([name: "Jona Meier"]))
+                .when()
+                .patch("/v1/persons/1")
+                .then()
+                .statusCode(204)
 
     }
 

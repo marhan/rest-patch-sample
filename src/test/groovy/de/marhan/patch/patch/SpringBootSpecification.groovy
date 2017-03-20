@@ -1,6 +1,7 @@
 package de.marhan.patch.patch
 
 import de.marhan.patch.RestPatchSampleApplication
+import io.restassured.RestAssured
 import org.springframework.boot.SpringApplication
 import org.springframework.context.ConfigurableApplicationContext
 import spock.lang.AutoCleanup
@@ -29,6 +30,8 @@ class SpringBootSpecification extends Specification {
                     }
                 })
         context = future.get(60, TimeUnit.SECONDS)
+
+        RestAssured.baseURI = "http://localhost:12345"
 
     }
 
