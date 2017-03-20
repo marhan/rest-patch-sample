@@ -1,12 +1,13 @@
-package de.marhan.patch.patch
+package de.marhan.patch.controller.v1
 
+import de.marhan.patch.controller.SpringBootSpecification
 import io.restassured.http.ContentType
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.CoreMatchers.*
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize
 
-class JsonMergePatchSpec extends SpringBootSpecification {
+class JsonMergePatchV1ControllerSpec extends SpringBootSpecification {
 
     def "get persons"() {
 

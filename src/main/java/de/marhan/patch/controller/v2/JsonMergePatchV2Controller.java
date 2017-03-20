@@ -1,42 +1,43 @@
 package de.marhan.patch.controller.v2;
 
+import de.marhan.patch.controller.common.JsonMergePatcher;
+import de.marhan.patch.controller.common.RestMediaType;
 import de.marhan.patch.resource.PersonResource;
 import de.marhan.patch.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-//@RestController
-//@RequestMapping("/api/v2/merge")
+@RestController
 public class JsonMergePatchV2Controller {
 
     private PersonService service;
 
+    private JsonMergePatcher jsonMergePatcher;
+
     @Autowired
-    public JsonMergePatchV2Controller(PersonService service) {
+    public JsonMergePatchV2Controller(PersonService service, JsonMergePatcher jsonMergePatcher) {
         this.service = service;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PersonResource> list() {
-        return new ArrayList<>(service.getPersons());
-    }
-
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PersonResource> create(PersonResource resource) {
-        PersonResource createdResource = service.createPersonResource(resource);
-        return new ResponseEntity<>(createdResource, HttpStatus.CREATED);
-
+        this.jsonMergePatcher = jsonMergePatcher;
     }
 
 
+    @RequestMapping(
+            value = "/v2/persons/{id}",
+            method = RequestMethod.PATCH,
+            consumes = RestMediaType.APPLICATION_MERGE_PATCH_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> updatePartial(@PathVariable Integer id, @RequestBody String resource) {
+        PersonResource target = new PersonResource();
+        target.setId(id);
+
+        Optional<PersonResource> patched = jsonMergePatcher.mergePatch(resource, target);
+        
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 
 }

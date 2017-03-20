@@ -50,7 +50,6 @@ public class JsonMergePatchV1Controller {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PersonResource> create(@RequestBody PersonResource resource) {
-
 		PersonResource createdResource = service.createPersonResource(resource);
 		return new ResponseEntity<>(createdResource, HttpStatus.CREATED);
 

@@ -1,4 +1,4 @@
-package de.marhan.patch.patch
+package de.marhan.patch.controller
 
 import de.marhan.patch.RestPatchSampleApplication
 import io.restassured.RestAssured
