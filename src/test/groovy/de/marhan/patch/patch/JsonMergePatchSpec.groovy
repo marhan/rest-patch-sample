@@ -4,8 +4,8 @@ import groovy.json.JsonOutput
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 
-import static org.hamcrest.CoreMatchers.equalTo
-import static org.hamcrest.CoreMatchers.hasItems
+import static org.hamcrest.CoreMatchers.*
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize
 
 class JsonMergePatchSpec extends SpringBootSpecification {
 
@@ -20,8 +20,10 @@ class JsonMergePatchSpec extends SpringBootSpecification {
                 .then()
                 .contentType(ContentType.JSON)
                 .statusCode(200)
-                .body("id", { hasItems(1) })
-                .body("name", { hasItems("test name") })
+                .body("findAll { it.id == 1}.name", hasItem("test name"))
+                .body("findAll", hasSize(1))
+                .body("id", hasItems(1))
+                .body("name", hasItems("test name"))
 
 
     }
