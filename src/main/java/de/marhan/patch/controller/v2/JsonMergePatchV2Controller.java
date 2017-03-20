@@ -2,7 +2,7 @@ package de.marhan.patch.controller.v2;
 
 import de.marhan.patch.controller.common.JsonMergePatcher;
 import de.marhan.patch.controller.common.RestMediaType;
-import de.marhan.patch.resource.PersonResource;
+import de.marhan.patch.controller.common.PersonResource;
 import de.marhan.patch.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

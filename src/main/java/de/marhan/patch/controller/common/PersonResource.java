@@ -1,4 +1,4 @@
-package de.marhan.patch.resource;
+package de.marhan.patch.controller.common;
 
 public class PersonResource {
 

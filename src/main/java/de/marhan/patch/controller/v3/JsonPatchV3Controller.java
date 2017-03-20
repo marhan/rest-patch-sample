@@ -1,28 +1,40 @@
 package de.marhan.patch.controller.v3;
 
-import de.marhan.patch.resource.PersonResource;
+import de.marhan.patch.controller.common.JsonPatcher;
+import de.marhan.patch.controller.common.RestMediaType;
+import de.marhan.patch.controller.common.PersonResource;
 import de.marhan.patch.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
-//@RestController
-//@RequestMapping("/api/v3/merge")
+@RestController
 public class JsonPatchV3Controller {
 
     private PersonService service;
 
+    private JsonPatcher jsonPatcher;
+
     @Autowired
-    public JsonPatchV3Controller(PersonService service) {
+    public JsonPatchV3Controller(PersonService service, JsonPatcher jsonPatcher) {
         this.service = service;
+        this.jsonPatcher = jsonPatcher;
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PersonResource> list() {
-        return service.getPersons();
+    @RequestMapping(
+            value = "/v3/persons/{id}",
+            method = RequestMethod.PATCH,
+            consumes = RestMediaType.APPLICATION_PATCH_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> updatePartial(@PathVariable Integer id, @RequestBody String resource) {
+        PersonResource target = new PersonResource();
+        target.setId(id);
+
+        Optional<PersonResource> patched = jsonPatcher.patch(resource, target);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

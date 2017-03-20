@@ -1,6 +1,6 @@
 package de.marhan.patch.service;
 
-import de.marhan.patch.resource.PersonResource;
+import de.marhan.patch.controller.common.PersonResource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
