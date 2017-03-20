@@ -47,5 +47,23 @@ class JsonMergePatchSpec extends SpringBootSpecification {
         }
     }
 
+    def "patch"() {
+
+        when:
+
+        def response = client.patch(
+                path: '/v1/persons/1',
+                body: [name: "Jona Meier"],
+                requestContentType: ContentType.JSON)
+
+        then:
+
+        response != null
+        with(response) {
+            status == 201
+        }
+
+    }
+
 
 }
