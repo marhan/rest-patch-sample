@@ -1,6 +1,5 @@
 package de.marhan.patch.patch
 
-import groovy.json.JsonOutput
 import io.restassured.http.ContentType
 
 import static io.restassured.RestAssured.given
@@ -27,10 +26,14 @@ class JsonMergePatchSpec extends SpringBootSpecification {
 
     def "create"() {
 
+        given:
+
+        def body = '{"name": "Jona Meier" }'
+
         expect:
 
         given().contentType(ContentType.JSON)
-                .body(JsonOutput.toJson([name: "Jona Meier"]))
+                .body(body)
                 .when().post("/v1/persons")
                 .then()
                 .statusCode(201)
@@ -41,10 +44,14 @@ class JsonMergePatchSpec extends SpringBootSpecification {
 
     def "patch"() {
 
+        given:
+
+        def body = '{"name": "Jona Meier" }'
+
         expect:
 
         given().contentType("application/merge-patch+json")
-                .body(JsonOutput.toJson([name: "Jona Meier"]))
+                .body(body)
                 .when().patch("/v1/persons/1")
                 .then().statusCode(204)
 
