@@ -50,4 +50,24 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
     }
 
 
+    def "patch remove address"() {
+
+        given:
+
+        def body = '[{ "op": "remove", "path": "/addresses/1"}]'
+
+        expect:
+
+        given().contentType(PATCH_CONTENT_TYPE)
+                .body(body)
+                .when().patch("/v3/persons/1")
+                .then().statusCode(200)
+                .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
+                .body("addresses.findAll", hasSize(1))
+                .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Spitalerstrasse 12"))
+
+    }
+
+
 }
