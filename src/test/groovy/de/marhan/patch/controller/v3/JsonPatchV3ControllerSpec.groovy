@@ -69,7 +69,7 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
 
     }
 
-    def "patch replace address"() {
+    def "patch replace addresses"() {
 
         given:
 
@@ -85,6 +85,27 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
                 .body("name", equalTo("Fritz Brause"))
                 .body("addresses.findAll", hasSize(2))
                 .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Bahnhofstrasse 99"))
+                .body("addresses.findAll { it.city == 'Hannover'}.street", hasItem("Hauptstrasse 100"))
+
+    }
+
+    def "patch add address"() {
+
+        given:
+
+        def body = '[{ "op": "add", "path": "/addresses/0", "value": {"city": "Hannover", "street": "Hauptstrasse 100"} }]'
+
+        expect:
+
+        given().contentType(PATCH_CONTENT_TYPE)
+                .body(body)
+                .when().patch("/v3/persons/1")
+                .then().statusCode(200)
+                .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
+                .body("addresses.findAll", hasSize(3))
+                .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Spitalerstrasse 12"))
+                .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
                 .body("addresses.findAll { it.city == 'Hannover'}.street", hasItem("Hauptstrasse 100"))
 
     }
