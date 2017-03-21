@@ -37,6 +37,7 @@ dependencies {
     compile 'com.github.fge:json-patch:1.9'
     compile "org.codehaus.groovy:groovy-all:2.4.1"
     compile 'org.spockframework:spock-spring:1.1-groovy-2.4-rc-3'
+    compile 'commons-lang:commons-lang:2.6'
     runtime 'org.springframework.boot:spring-boot-devtools'
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-3"
     testCompile 'org.springframework.boot:spring-boot-starter-test'
