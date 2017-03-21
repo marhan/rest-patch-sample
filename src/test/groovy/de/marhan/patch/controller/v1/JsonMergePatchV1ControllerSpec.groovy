@@ -4,25 +4,28 @@ import de.marhan.patch.controller.SpringBootSpecification
 import io.restassured.http.ContentType
 
 import static io.restassured.RestAssured.given
-import static org.hamcrest.CoreMatchers.*
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.hasItem
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize
 
 class JsonMergePatchV1ControllerSpec extends SpringBootSpecification {
 
-    def "get persons"() {
+    static final String PATH = "/v1/persons/1"
+    static final String PATCH_CONTENT_TYPE = "application/merge-patch+json"
+
+    def "get person"() {
 
         expect:
 
         given().contentType(ContentType.URLENC)
-                .when().get("/v1/persons")
+                .when().get(PATH)
                 .then().contentType(ContentType.JSON)
                 .statusCode(200)
-                .body("findAll { it.id == 1}.name", hasItem("Fritz Brause"))
-                .body("findAll", hasSize(1))
-                .body("id", hasItems(1))
-                .body("name", hasItems("Fritz Brause"))
-
-
+                .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
+                .body("addresses.findAll", hasSize(2))
+                .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Spitalerstrasse 12"))
+                .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
     }
 
     def "patch name"() {
@@ -33,17 +36,16 @@ class JsonMergePatchV1ControllerSpec extends SpringBootSpecification {
 
         expect:
 
-        given().contentType("application/merge-patch+json")
+        given().contentType(PATCH_CONTENT_TYPE)
                 .body(body)
-                .when().patch("/v1/persons/1")
+                .when().patch(PATH)
                 .then().contentType(ContentType.JSON)
                 .statusCode(200)
-                .body("name", equalTo("Jona Meier"))
                 .body("id", equalTo(1))
+                .body("name", equalTo("Jona Meier"))
                 .body("addresses.findAll", hasSize(2))
                 .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Spitalerstrasse 12"))
                 .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
-
     }
 
     def "patch addresses"() {
@@ -54,13 +56,13 @@ class JsonMergePatchV1ControllerSpec extends SpringBootSpecification {
 
         expect:
 
-        given().contentType("application/merge-patch+json")
+        given().contentType(PATCH_CONTENT_TYPE)
                 .body(body)
-                .when().patch("/v1/persons/1")
+                .when().patch(PATH)
                 .then().contentType(ContentType.JSON)
                 .statusCode(200)
-                .body("name", equalTo("Fritz Brause"))
                 .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
                 .body("addresses.findAll", hasSize(1))
                 .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Kleine Strasse 1"))
     }

@@ -9,31 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 
 @RestController
 public class JsonMergePatchV1Controller {
 
 
-    @RequestMapping(
-            value = "/v1/persons",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PersonResource>> getAll() {
-        List<PersonResource> personResources = Arrays.asList(new ResourceBuilder().build());
-        return new ResponseEntity<>(personResources, HttpStatus.OK);
-
+    @RequestMapping(value = "/v1/persons/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonResource> get(@PathVariable Long id) {
+        return new ResponseEntity<>(new ResourceBuilder().build(), HttpStatus.OK);
     }
 
-    @RequestMapping(
-            value = "/v1/persons/{id}",
-            method = RequestMethod.PATCH,
-            consumes = RestMediaType.APPLICATION_MERGE_PATCH_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<PersonResource> updatePartial(@PathVariable Long id, @RequestBody PersonResource updateResource) {
+    @RequestMapping(value = "/v1/persons/{id}", method = RequestMethod.PATCH, consumes = RestMediaType.APPLICATION_MERGE_PATCH_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonResource> patch(@PathVariable Long id, @RequestBody PersonResource updateResource) {
         PersonResource resource = new ResourceBuilder().build();
 
         if (updateResource.getName() != null) {
