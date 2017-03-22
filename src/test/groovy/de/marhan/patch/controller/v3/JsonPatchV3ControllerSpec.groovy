@@ -2,6 +2,7 @@ package de.marhan.patch.controller.v3
 
 import de.marhan.patch.controller.SpringBootSpecification
 import io.restassured.http.ContentType
+import spock.lang.Ignore
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.CoreMatchers.equalTo
@@ -127,6 +128,48 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
                 .body("addresses.findAll", hasSize(2))
                 .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Bahnhofstrasse 99"))
                 .body("addresses.findAll { it.city == 'Hannover'}.street", hasItem("Hauptstrasse 100"))
+
+    }
+
+
+    def "patch replace one specific address"() {
+
+        given:
+
+        def body = '[{ "op": "replace", "path": "/addresses/0", "value": {"city": "Hannover", "street": "The replaced street 1"} }]'
+
+        expect:
+
+        given().contentType(PATCH_CONTENT_TYPE)
+                .body(body)
+                .when().patch("/v3/persons/1")
+                .then().statusCode(200)
+                .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
+                .body("addresses.findAll", hasSize(2))
+                .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
+                .body("addresses.findAll { it.city == 'Hannover'}.street", hasItem("The replaced street 1"))
+
+    }
+
+    @Ignore("Does not work as expected!")
+    def "patch replace addresses street"() {
+
+        given:
+
+        def body = '[{ "op": "replace", "path": "/addresses/0/street", "value": "The replaced street 1" }]'
+
+        expect:
+
+        given().contentType(PATCH_CONTENT_TYPE)
+                .body(body)
+                .when().patch("/v3/persons/1")
+                .then().statusCode(200)
+                .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
+                .body("addresses.findAll", hasSize(2))
+                .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
+                .body("addresses.findAll { it.city == 'Hannover'}.street", hasItem("The replaced street 1"))
 
     }
 
