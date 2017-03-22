@@ -5,11 +5,11 @@ None of the implemented variants are meant to be best or good practices.
 
 ## JSON MERGE PATCH
 
-Have a look at the tests JsonMergePatchV1ControllerSpec and JsonMergePatchV2ControllerSpec.
+Please find examples for [RFC7386 (JSONMerge Patch)](http://tools.ietf.org/html/rfc7386) in groovy test classes JsonMergePatchV1ControllerSpec and JsonMergePatchV2ControllerSpec.
 
 ## JSON PATCH
 
-Have a look at the test JsonPatchV3ControllerSpec.
+Please find example for [RFC 6902 (JSON Patch)](http://tools.ietf.org/html/rfc6902) in groovy test class JsonPatchV3ControllerSpec.
 
 ## Run tests
 

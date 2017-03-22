@@ -50,7 +50,7 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
     }
 
 
-    def "patch test name"() {
+    def "patch test name successful"() {
 
         given:
 
@@ -62,6 +62,26 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
                 .body(body)
                 .when().patch("/v3/persons/1")
                 .then().statusCode(200)
+                .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
+                .body("addresses.findAll", hasSize(2))
+                .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Spitalerstrasse 12"))
+                .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
+
+    }
+
+    def "patch test name with failure"() {
+
+        given:
+
+        def body = '[{ "op": "test", "path": "/name", "value": "Totally wrong value" }]'
+
+        expect:
+
+        given().contentType(PATCH_CONTENT_TYPE)
+                .body(body)
+                .when().patch("/v3/persons/1")
+                .then().statusCode(404)
                 .body("id", equalTo(1))
                 .body("name", equalTo("Fritz Brause"))
                 .body("addresses.findAll", hasSize(2))
@@ -115,6 +135,27 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
         given:
 
         def body = '[{ "op": "add", "path": "/addresses/0", "value": {"city": "Hannover", "street": "Hauptstrasse 100"} }]'
+
+        expect:
+
+        given().contentType(PATCH_CONTENT_TYPE)
+                .body(body)
+                .when().patch("/v3/persons/1")
+                .then().statusCode(200)
+                .body("id", equalTo(1))
+                .body("name", equalTo("Fritz Brause"))
+                .body("addresses.findAll", hasSize(3))
+                .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Spitalerstrasse 12"))
+                .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
+                .body("addresses.findAll { it.city == 'Hannover'}.street", hasItem("Hauptstrasse 100"))
+
+    }
+
+    def "patch add address at the end"() {
+
+        given:
+
+        def body = '[{ "op": "add", "path": "/addresses/-", "value": {"city": "Hannover", "street": "Hauptstrasse 100"} }]'
 
         expect:
 
