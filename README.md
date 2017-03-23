@@ -21,7 +21,7 @@ Please find some HTTP PATCH example calls for the three different endpoints.
 [HTTPie](https://httpie.org/doc) is used to call the API. 
 Therefore, you need to install it, if you want to use the commands below directly in your terminal.
 
-There is also a [Postman](https://www.getpostman.com/) collection in doc folder which can be imported into your App.
+There is also a [Postman](https://www.getpostman.com/) collection in /doc folder.
 
 ### JSON MERGE PATCH - V1
 
