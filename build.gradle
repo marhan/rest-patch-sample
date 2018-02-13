@@ -15,7 +15,7 @@ buildscript {
 }
 
 group = 'de.marhan'
-version = '0.1'
+version = '0.1-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'groovy'
