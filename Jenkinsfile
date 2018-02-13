@@ -1,6 +1,5 @@
-#!/usr/bin/env groovy
-
-node {
+pipeline {
+    agent any
     stage('checkout') {
         checkout scm
     }

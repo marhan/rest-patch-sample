@@ -60,4 +60,5 @@ bootRun {
 
 test {
     systemProperties = System.properties
+    System.setProperty('spring.profiles.active', "test")
 }
