@@ -22,7 +22,7 @@ pipeline {
 
         stage ('SonarQube') {
             steps {
-                sh "./gradlew sonarqube"
+                sh "./gradlew sonarqube -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}"
             }
         }
     }
