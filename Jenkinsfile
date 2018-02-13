@@ -20,12 +20,21 @@ pipeline {
             }            
         }
 
-        stage ('SonarQube') {
-            var mainBranch = ${BRANCH_NAME} in ['master', 'develop']
+        stage ('SonarQube') {            
             steps {
-                if (mainBranch) {
-                    echo "Is main brnach ${mainBranch}"
-                }
+                when {
+                    expression { BRANCH_NAME ==~ /(master|develop)/ }                    
+                }           
+                echo "${BRANCH_NAME} is in (master|develop)"
+                sh "./gradlew sonarqube -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}"
+            }
+            steps {
+                when {
+                    not {
+                        expression { BRANCH_NAME ==~ /(master|develop)/ }
+                    }                                 
+                }           
+                echo "${BRANCH_NAME} is NOT in (master|develop)"
                 sh "./gradlew sonarqube -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}"
             }
         }
