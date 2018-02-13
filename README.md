@@ -6,7 +6,7 @@ None of the implemented variants are meant to be best or good practices.
 ## Run tests
 
 ```
-./gradlew clean test -Dspring.profiles.active=test
+./gradlew clean test
 ```
 
 ## Run application
@@ -44,7 +44,7 @@ There is also a [Postman](https://www.getpostman.com/) collection in /doc folder
 ## Continuous Integration
 
 - [Travis CI](https://travis-ci.org/marhan/rest-patch-sample)
-- On your Jenkins with the given [Jenkinsfile](rest-patch-sample/Jenkinsfile) 
+- On your Jenkins with the given [Jenkinsfile](https://github.com/marhan/rest-patch-sample/blob/master/Jenkinsfile) 
 
 
 ## Used components / technologies
