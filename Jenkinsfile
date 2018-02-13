@@ -27,7 +27,10 @@ pipeline {
                 }           
                 echo "${BRANCH_NAME} is in (master|develop)"
                 sh "./gradlew sonarqube -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}"
-            }
+            }           
+        }
+
+         stage ('SonarQube for feature') {                        
             steps {
                 when {
                     not {
