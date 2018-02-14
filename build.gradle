@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"        
     }
 }
 
@@ -65,4 +65,32 @@ bootRun {
 test {
     System.setProperty('spring.profiles.active', "test")
     systemProperties = System.properties
+}
+
+
+task printProjectKey() {
+   print buildSonarProjectKey()
+}
+
+def getBranchName() {
+        def branch = ""
+        def proc = "git rev-parse --abbrev-ref HEAD".execute()
+        proc.in.eachLine { line -> branch = line }
+        proc.err.eachLine { line -> println line }
+        proc.waitFor()
+        return branch
+}
+
+def buildSonarProjectKey() {
+        def branch = getBranchName()
+        if(branch.startsWith('develop')) {
+            return "${project.group}:${project.name}:${getBranchName()}"
+        } 
+        return "${project.group}:${project.name}"
+}
+
+sonarqube{
+  properties {
+    property 'sonar.projectKey', buildSonarProjectKey()
+  }
 }
