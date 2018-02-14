@@ -13,3 +13,7 @@ hs_err_pid*
 
 .gradle
 build
+.idea
+.project
+.vscode
+/bin
