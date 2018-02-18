@@ -21,9 +21,9 @@ pipeline {
         }
 
         stage ('SonarQube Default') {            
-                when {
-                    expression { BRANCH_NAME ==~ /(master|develop)/ }                    
-                }    
+            when {
+                expression { BRANCH_NAME ==~ /(master)/ }                    
+            }    
             steps {                       
                 echo "${BRANCH_NAME} is in (master|develop)"
                 sh "./gradlew sonarqube -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}"
@@ -32,11 +32,11 @@ pipeline {
 
         stage ('SonarQube Feature') {            
             when {
-                expression { BRANCH_NAME !=~ /(master|develop)/ }                    
+                expression { BRANCH_NAME !=~ /(master)/ }                    
             }           
             steps {                
                 echo "${BRANCH_NAME} is NOT in (master|develop)"
-                sh "./gradlew sonarqube -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}"
+                sh "./gradlew sonarqube -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN} -Dsonar.projectKey=${CUSTOM_PROJECT_KEY}"
             }
         }
     }
