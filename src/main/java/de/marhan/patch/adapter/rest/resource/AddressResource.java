@@ -1,7 +1,6 @@
-package de.marhan.patch.controller.resource;
+package de.marhan.patch.adapter.rest.resource;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.springframework.core.style.ToStringCreator;
 
 public class AddressResource {
 
