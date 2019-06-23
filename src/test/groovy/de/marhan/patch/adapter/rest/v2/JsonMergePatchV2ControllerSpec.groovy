@@ -20,7 +20,7 @@ class JsonMergePatchV2ControllerSpec extends Specification {
     @LocalServerPort
     private long port
 
-    def "get person"() {
+    void "get person"() {
 
         expect:
 
@@ -36,7 +36,7 @@ class JsonMergePatchV2ControllerSpec extends Specification {
                 .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
     }
 
-    def "patch name"() {
+    void "patch name"() {
 
         given:
 
@@ -57,7 +57,7 @@ class JsonMergePatchV2ControllerSpec extends Specification {
                 .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
     }
 
-    def "patch addresses"() {
+    void "patch addresses"() {
 
         given:
 

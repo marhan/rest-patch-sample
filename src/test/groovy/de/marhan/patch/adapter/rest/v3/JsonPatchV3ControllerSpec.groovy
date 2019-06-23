@@ -22,7 +22,7 @@ class JsonPatchV3ControllerSpec extends Specification {
     @LocalServerPort
     private long port;
 
-    def "get person"() {
+    void "get person"() {
 
         expect:
 
@@ -37,7 +37,7 @@ class JsonPatchV3ControllerSpec extends Specification {
                 .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
     }
 
-    def "patch replace name"() {
+    void "patch replace name"() {
 
         given:
 
@@ -57,7 +57,7 @@ class JsonPatchV3ControllerSpec extends Specification {
 
     }
 
-    def "patch test name successful"() {
+    void "patch test name successful"() {
 
         given:
 
@@ -78,7 +78,7 @@ class JsonPatchV3ControllerSpec extends Specification {
     }
 
 
-    def "patch test name with failure"() {
+    void "patch test name with failure"() {
 
         given:
 
@@ -98,7 +98,7 @@ class JsonPatchV3ControllerSpec extends Specification {
 
     }
 
-    def "patch remove address"() {
+    void "patch remove address"() {
 
         given:
 
@@ -118,7 +118,7 @@ class JsonPatchV3ControllerSpec extends Specification {
     }
 
 
-    def "patch replace addresses"() {
+    void "patch replace addresses"() {
 
         given:
 
@@ -138,7 +138,7 @@ class JsonPatchV3ControllerSpec extends Specification {
 
     }
 
-    def "patch replace one specific address"() {
+    void "patch replace one specific address"() {
 
         given:
 
@@ -160,7 +160,7 @@ class JsonPatchV3ControllerSpec extends Specification {
 
 
     @Ignore("Does not work as expected!")
-    def "patch replace addresses street"() {
+    void "patch replace addresses street"() {
 
         given:
 
@@ -180,7 +180,7 @@ class JsonPatchV3ControllerSpec extends Specification {
 
     }
 
-    def "patch add address"() {
+    void "patch add address"() {
 
         given:
 
@@ -201,7 +201,7 @@ class JsonPatchV3ControllerSpec extends Specification {
 
     }
 
-    def "patch add address at the end"() {
+    void "patch add address at the end"() {
 
         given:
 
