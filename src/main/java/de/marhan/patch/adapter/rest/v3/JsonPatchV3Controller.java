@@ -1,7 +1,6 @@
 package de.marhan.patch.adapter.rest.v3;
 
 import com.github.fge.jsonpatch.JsonPatchException;
-import de.marhan.patch.adapter.rest.common.JsonPatcher;
 import de.marhan.patch.adapter.rest.common.RestMediaType;
 import de.marhan.patch.adapter.rest.resource.PersonResource;
 import de.marhan.patch.adapter.rest.resource.ResourceBuilder;

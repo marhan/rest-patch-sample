@@ -1,4 +1,4 @@
-package de.marhan.patch.adapter.rest.common;
+package de.marhan.patch.adapter.rest.v3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

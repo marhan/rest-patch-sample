@@ -1,6 +1,5 @@
 package de.marhan.patch.adapter.rest.v2;
 
-import de.marhan.patch.adapter.rest.common.JsonMergePatcher;
 import de.marhan.patch.adapter.rest.common.RestMediaType;
 import de.marhan.patch.adapter.rest.resource.PersonResource;
 import de.marhan.patch.adapter.rest.resource.ResourceBuilder;
