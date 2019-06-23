@@ -1,4 +1,4 @@
-package de.marhan.patch.controller.resource;
+package de.marhan.patch.adapter.rest.resource;
 
 import java.util.Arrays;
 

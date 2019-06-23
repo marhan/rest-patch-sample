@@ -1,19 +1,26 @@
-package de.marhan.patch.controller.v3
+package de.marhan.patch.adapter.rest.v3
 
-import de.marhan.patch.controller.SpringBootSpecification
+
+import io.restassured.RestAssured
 import io.restassured.http.ContentType
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.web.server.LocalServerPort
 import spock.lang.Ignore
+import spock.lang.Specification
 
-import static io.restassured.RestAssured.given
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.hasItem
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 
-class JsonPatchV3ControllerSpec extends SpringBootSpecification {
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+class JsonPatchV3ControllerSpec extends Specification {
 
+    private static final String PATH = "/v3/persons/1"
+    private static final String PATCH_CONTENT_TYPE = "application/json-patch+json"
 
-    static final String PATH = "/v3/persons/1"
-    static final String PATCH_CONTENT_TYPE = "application/json-patch+json"
+    @LocalServerPort
+    private long port;
 
     def "get person"() {
 
@@ -50,7 +57,6 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
 
     }
 
-
     def "patch test name successful"() {
 
         given:
@@ -70,6 +76,7 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
                 .body("addresses.findAll { it.city == 'Bremen'}.street", hasItem("Boetcherstrasse 2"))
 
     }
+
 
     def "patch test name with failure"() {
 
@@ -91,7 +98,6 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
 
     }
 
-
     def "patch remove address"() {
 
         given:
@@ -110,6 +116,7 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
                 .body("addresses.findAll { it.city == 'Hamburg'}.street", hasItem("Spitalerstrasse 12"))
 
     }
+
 
     def "patch replace addresses"() {
 
@@ -131,7 +138,6 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
 
     }
 
-
     def "patch replace one specific address"() {
 
         given:
@@ -151,6 +157,7 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
                 .body("addresses.findAll { it.city == 'Hannover'}.street", hasItem("The replaced street 1"))
 
     }
+
 
     @Ignore("Does not work as expected!")
     def "patch replace addresses street"() {
@@ -215,5 +222,7 @@ class JsonPatchV3ControllerSpec extends SpringBootSpecification {
 
     }
 
-
+    private given() {
+        RestAssured.given().baseUri("http://localhost:" + port)
+    }
 }

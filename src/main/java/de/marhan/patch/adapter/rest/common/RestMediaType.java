@@ -1,4 +1,4 @@
-package de.marhan.patch.controller.common;
+package de.marhan.patch.adapter.rest.common;
 
 import org.springframework.http.MediaType;
 

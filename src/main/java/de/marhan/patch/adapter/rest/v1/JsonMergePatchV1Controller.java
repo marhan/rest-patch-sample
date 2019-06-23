@@ -1,13 +1,17 @@
-package de.marhan.patch.controller.v1;
+package de.marhan.patch.adapter.rest.v1;
 
-import de.marhan.patch.controller.common.RestMediaType;
-import de.marhan.patch.controller.resource.PersonResource;
-import de.marhan.patch.controller.resource.ResourceBuilder;
+import de.marhan.patch.adapter.rest.common.RestMediaType;
+import de.marhan.patch.adapter.rest.resource.PersonResource;
+import de.marhan.patch.adapter.rest.resource.ResourceBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController

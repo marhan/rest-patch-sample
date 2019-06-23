@@ -43,9 +43,7 @@ There is also a [Postman](https://www.getpostman.com/) collection in /doc folder
 
 ## Continuous Integration
 
-- [Travis CI](https://travis-ci.org/marhan/rest-patch-sample)
-- On your Jenkins with the given [Jenkinsfile](https://github.com/marhan/rest-patch-sample/blob/master/Jenkinsfile) 
-
+- [Travis CI](https://travis-ci.org/marhan/rest-patch-sample) 
 
 ## Used components / technologies
 
