@@ -1,4 +1,4 @@
-# RESTful service sample with HTTP PATCH
+# RESTful service with HTTP PATCH Method [![Build Status](https://travis-ci.org/marhan/rest-patch-sample.svg?branch=master)](https://travis-ci.org/marhan/rest-patch-sample)
 
 The intention of this project is to experiment with [RFC7386 (JSONMerge Patch)](http://tools.ietf.org/html/rfc7386) and [RFC 6902 (JSON Patch)](http://tools.ietf.org/html/rfc6902) implementations. 
 None of the implemented variants are meant to be best or good practices. 
